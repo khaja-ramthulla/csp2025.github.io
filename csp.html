@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Community Service Project - Student Tuition Data</title>
+    <style>
+        /* General Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #f9f9f9, #ffffff);
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        header, section {
+            margin-bottom: 40px;
+        }
+
+        h1, h2, h3 {
+            text-align: center;
+            color: #003366; /* Navy blue */
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        h2 {
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+
+        h3 {
+            font-size: 1.5em;
+            margin-bottom: 15px;
+        }
+
+        p {
+            font-size: 1.1em;
+            text-align: justify;
+            margin: 10px 0;
+        }
+
+        /* Introduction Section */
+        .introduction {
+            background: linear-gradient(135deg, #cce7ff, #ffffff); /* Light blue gradient */
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Table Section */
+        table {
+            width: 90%; /* Reduced width */
+            margin: 0 auto; /* Center the table */
+            border-collapse: collapse;
+            background-color: #fff;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        table th, table td {
+            padding: 12px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        table th {
+            background-color: #cce7ff; /* Light blue */
+            color: #003366; /* Navy blue */
+        }
+
+        table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        table tr:hover {
+            background-color: #e7f0fd; /* Light blue hover */
+        }
+
+        /* Filter Dropdown */
+        .filter-container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .filter-container select {
+            padding: 8px;
+            font-size: 1em;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+
+        /* Visualization Section */
+        .visualization {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .chart-container {
+            background: #fff;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 40%; /* Reduced size */
+        }
+
+        canvas {
+            max-width: 100%;
+            height: auto;
+        }
+
+        /* Survey Photos Section */
+        .photos {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .photos img {
+            width: 30%; /* Increased size */
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .photos img:hover {
+            transform: scale(1.1); /* Zoom effect */
+        }
+
+        /* Conclusion Section */
+        .conclusion {
+            background: linear-gradient(135deg, #ffcccc, #ffe6e6); /* Light coral gradient */
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .conclusion ul {
+            list-style-type: disc;
+            padding-left: 20px;
+        }
+
+        .conclusion li {
+            font-size: 1.1em;
+            margin: 5px 0;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 10px 0;
+            margin-top: 40px;
+            font-size: 0.9em;
+            color: #003366; /* Navy blue */
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <h1>Community Service Project</h1>
+        <h2>Identification of Students Preferring Tuitions</h2>
+    </header>
+
+    <!-- Section 1: Introduction -->
+    <section class="introduction">
+        <h2>Introduction</h2>
+        <p>
+            The Community Service Project (CSP) aims to identify students from schools and colleges who are opting for tuitions. This initiative helps us understand the reasons behind their choices, such as academic struggles, parental pressure, or preparation for competitive exams. By analyzing this data, we can provide better support systems for students and address their educational needs effectively.
+        </p>
+    </section>
+
+    <!-- Section 2: Survey Details -->
+    <section>
+        <h2>Survey Details</h2>
+        <div class="filter-container">
+            <label for="tuitionFilter">Filter by Tuition:</label>
+            <select id="tuitionFilter">
+                <option value="all">All</option>
+                <option value="yes">Yes</option>
+                <option value="no">No</option>
+            </select>
+        </div>
+        <table id="studentTable">
+            <thead>
+                <tr>
+                    <th>S.NO</th>
+                    <th>Name</th>
+                    <th>Aadhar Number</th>
+                    <th>Contact Number</th>
+                    <th>School/College</th>
+                    <th>Tuition (Yes/No)</th>
+                    <th>Reasons</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Rows will be dynamically inserted here -->
+            </tbody>
+        </table>
+    </section>
+
+    <!-- Section 3: Visualization -->
+    <section>
+        <h2>Visualization of Survey Details</h2>
+        <div class="visualization">
+            <div class="chart-container">
+                <canvas id="tuitionPieChart"></canvas>
+            </div>
+            <div class="chart-container">
+                <canvas id="reasonBarChart"></canvas>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 4: Survey Photos -->
+    <section>
+        <h2>Survey Photos</h2>
+        <div class="photos">
+            <img src="https://via.placeholder.com/600" alt="Survey Photo 1">
+            <img src="https://via.placeholder.com/600" alt="Survey Photo 2">
+            <img src="https://via.placeholder.com/600" alt="Survey Photo 3">
+            <img src="https://via.placeholder.com/600" alt="Survey Photo 4">
+        </div>
+    </section>
+
+    <!-- Section 5: Conclusion -->
+    <section class="conclusion">
+        <h2>Conclusion</h2>
+        <p>
+            This project has been instrumental in understanding the educational landscape of students in our community. Key takeaways include:
+        </p>
+        <ul>
+            <li>Identifying students who need additional academic support.</li>
+            <li>Highlighting the reasons why students opt for tuitions.</li>
+            <li>Providing insights into areas where schools/colleges can improve teaching methodologies.</li>
+            <li>Encouraging parents and educators to collaborate for better student outcomes.</li>
+        </ul>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2023 Community Service Project</p>
+    </footer>
+
+    <!-- Chart.js Library -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Sample data for students
+        const students = [
+            { sno: 1, name: "Mohammed Irfan", aadhar: "123456789012", contact: "9876543210", institution: "School", tuition: "Yes", reason: "Weak in Mathematics" },
+            { sno: 2, name: "Sai Charan", aadhar: "987654321098", contact: "7890123456", institution: "College", tuition: "No", reason: "Prefers self-study" },
+            // Add all other students here...
+            { sno: 50, name: "Naseema Begum", aadhar: "210987654321", contact: "8078901298", institution: "School", tuition: "No", reason: "Manages well" }
+        ];
+
+        // Function to populate the table dynamically
+        function populateTable(data) {
+            const tbody = document.querySelector('#studentTable tbody');
+            tbody.innerHTML = ''; // Clear existing rows
+
+            data.forEach(student => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${student.sno}</td>
+                    <td>${student.name}</td>
+                    <td>${student.aadhar || 'N/A'}</td>
+                    <td>${student.contact}</td>
+                    <td>${student.institution}</td>
+                    <td>${student.tuition}</td>
+                    <td>${student.reason}</td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        // Initial population of the table
+        populateTable(students);
+
+        // Filter functionality
+        document.getElementById('tuitionFilter').addEventListener('change', function() {
+            const filterValue = this.value.toLowerCase();
+            const rows = document.querySelectorAll('#studentTable tbody tr');
+
+            rows.forEach(row => {
+                const tuition = row.cells[5].textContent.toLowerCase(); // Column index for Tuition
+                if (filterValue === 'all' || tuition.includes(filterValue)) {
+                    row.style.display = ''; // Show row
+                } else {
+                    row.style.display = 'none'; // Hide row
+                }
+            });
+        });
+
+        // Sample data for visualization
+        const tuitionData = {
+            labels: ['Yes', 'No'],
+            datasets: [{
+                label: 'Tuition Preference',
+                data: [30, 20],
+                backgroundColor: ['#FF5722', '#03A9F4'], // Orange and Blue
+                borderColor: ['#FF5722', '#03A9F4'],
+                borderWidth: 1
+            }]
+        };
+
+        const reasonData = {
+            labels: ['Weak in Subjects', 'Parental Pressure', 'Competitive Exams', 'Self-Study'],
+            datasets: [{
+                label: 'Reasons for Tuition',
+                data: [15, 10, 8, 7],
+                backgroundColor: ['#E91E63', '#9C27B0', '#4CAF50', '#FFC107'], // Pink, Purple, Green, Yellow
+                borderColor: ['#E91E63', '#9C27B0', '#4CAF50', '#FFC107'],
+                borderWidth: 1
+            }]
+        };
+
+        // Tuition Pie Chart
+        const tuitionCtx = document.getElementById('tuitionPieChart').getContext('2d');
+        new Chart(tuitionCtx, {
+            type: 'pie',
+            data: tuitionData,
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    title: {
+                        display: true,
+                        text: 'Tuition Preference'
+                    }
+                }
+            }
+        });
+
+        // Reason Bar Chart
+        const reasonCtx = document.getElementById('reasonBarChart').getContext('2d');
+        new Chart(reasonCtx, {
+            type: 'bar',
+            data: reasonData,
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    title: {
+                        display: true,
+                        text: 'Reasons for Tuition'
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            stepSize: 5
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
